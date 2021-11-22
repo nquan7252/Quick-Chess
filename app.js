@@ -4,6 +4,7 @@ let clicked=false;
 let chosenPiece;
 let chosenPieceName;
 let chosenPieceIsFirstTime;
+let chosenPieceColor;
 let chosenPieceSrc;
 let whiteturn=true;
 for (let i=0;i<8;i++){
@@ -34,69 +35,140 @@ var button=document.querySelectorAll('[id^="spot"]');
 for (let i=0;i<button.length;i++){
 button[i].addEventListener('click',()=>{ //if whiteturn
     if (clicked){
-        if (chosenPieceName.includes('pawn')){
+        if (chosenPieceName.includes('pawn')&&chosenPieceColor.includes("white")){
             if(checkValidMovePawn(chosenPiece,button[i].id,chosenPieceIsFirstTime)){
                 console.log("right move");
                 for (let k=0;k<pieceArray.length;k++){
                     if (pieceArray[k].positionn==chosenPiece){
                     pieceArray[k].movePawn(chosenPiece,button[i].id,chosenPieceSrc)
+                    check("white");
                     }
                 }
             }
             else console.log("wromng move");
         }
-        else if (chosenPieceName.includes('rook')){
-            if (checkValidMoveRook(chosenPiece,button[i].id)){
+        else if (chosenPieceName.includes('pawn')&&chosenPieceColor.includes("black")){
+            if(checkValidMovePawnBlack(chosenPiece,button[i].id,chosenPieceIsFirstTime)){
                 console.log("right move");
-                for (let k=0;k<pieceArray.length;k++){
-                    if (pieceArray[k].positionn==chosenPiece){
-                    pieceArray[k].moveRook(chosenPiece,button[i].id,chosenPieceSrc);
+                for (let k=0;k<pieceArrayb.length;k++){
+                    if (pieceArrayb[k].positionn==chosenPiece){
+                    pieceArrayb[k].movePawn(chosenPiece,button[i].id,chosenPieceSrc)
+                    check("black");
                     }
                 }
             }
+            else console.log("wromng move");
         }
-        else if (chosenPieceName.includes('knight')){
+        else if (chosenPieceName.includes('rook')&&chosenPieceColor.includes("white")){
+                if (checkValidMoveRook(chosenPiece,button[i].id,"white")){
+                        for (let k=0;k<pieceArray.length;k++){
+                            if (pieceArray[k].positionn==chosenPiece){
+                            pieceArray[k].moveRook(chosenPiece,button[i].id,chosenPieceSrc);
+                            check("white");
+                            }
+                         }
+                     }
+                    }
+         else if (chosenPieceName.includes('rook')&&chosenPieceColor.includes('black')){
+            if (checkValidMoveRook(chosenPiece,button[i].id,"black")){
+                        for (let k=0;k<pieceArrayb.length;k++){
+                            if (pieceArrayb[k].positionn==chosenPiece){
+                            pieceArrayb[k].moveRook(chosenPiece,button[i].id,chosenPieceSrc);
+                            check("black");
+                            }
+                         }
+                     }
+        }
+        else if (chosenPieceName.includes('knight')&&chosenPieceColor.includes("white")){
             if (checkValidMoveKnight(chosenPiece,button[i].id)){
                 console.log("right move");
                 for (let k=0;k<pieceArray.length;k++){
                     if (pieceArray[k].positionn==chosenPiece){
                     pieceArray[k].moveKnight(chosenPiece,button[i].id,chosenPieceSrc);
+                    check("white");
                     }
                 }
             }
         }
-        else if (chosenPieceName.includes('bishop')){
-            if (checkValidMoveBishop(chosenPiece,button[i].id)){
+        else if (chosenPieceName.includes('knight')&&chosenPieceColor.includes("black")){
+            if (checkValidMoveKnight(chosenPiece,button[i].id)){
+                console.log("right move");
+                for (let k=0;k<pieceArrayb.length;k++){
+                    if (pieceArrayb[k].positionn==chosenPiece){
+                    pieceArrayb[k].moveKnight(chosenPiece,button[i].id,chosenPieceSrc);
+                    check("black");
+                    }
+                }
+            }
+        }
+
+        else if (chosenPieceName.includes('bishop')&&chosenPieceColor.includes("white")){
+            if (checkValidMoveBishop(chosenPiece,button[i].id,"white")){
                 console.log("right move");
                 for (let k=0;k<pieceArray.length;k++){
                     if (pieceArray[k].positionn==chosenPiece){
                     pieceArray[k].moveBishop(chosenPiece,button[i].id,chosenPieceSrc);
+                    check("white");
                     }
                 }
             }
         }
-        else if (chosenPieceName.includes('queen')){
-            console.log("queen")
+        else if (chosenPieceName.includes('bishop')&&chosenPieceColor.includes("black")){
+            if (checkValidMoveBishop(chosenPiece,button[i].id,"black")){
+                console.log("right move");
+                for (let k=0;k<pieceArray.length;k++){
+                    if (pieceArrayb[k].positionn==chosenPiece){
+                    pieceArrayb[k].moveBishop(chosenPiece,button[i].id,chosenPieceSrc);
+                    check("black");
+                    }
+                }
+            }
+        }
+        else if (chosenPieceName.includes('queen')&&chosenPieceColor.includes("white")){
             if (checkValidMoveBishop(chosenPiece,button[i].id)||checkValidMoveRook(chosenPiece,button[i].id)){
                 console.log("right move");
                 for (let k=0;k<pieceArray.length;k++){
                     if (pieceArray[k].positionn==chosenPiece){
                     pieceArray[k].moveQueen(chosenPiece,button[i].id,chosenPieceSrc);
+                    check("white");
                     }
                 }
             }
         }
-        
-        else if (chosenPieceName.includes('king')){
+        else if (chosenPieceName.includes('queen')&&chosenPieceColor.includes("black")){
+            if (checkValidMoveBishop(chosenPiece,button[i].id)||checkValidMoveRook(chosenPiece,button[i].id)){
+                console.log("right move");
+                for (let k=0;k<pieceArrayb.length;k++){
+                    if (pieceArrayb[k].positionn==chosenPiece){
+                    pieceArrayb[k].moveQueen(chosenPiece,button[i].id,chosenPieceSrc);
+                    check("black");
+                    }
+                }
+            }
+        }
+        else if (chosenPieceName.includes('king')&&chosenPieceColor.includes("white")){
             if (checkValidMoveKing(chosenPiece,button[i].id)){
                 console.log("right move");
                 for (let k=0;k<pieceArray.length;k++){
                     if (pieceArray[k].positionn==chosenPiece){
                     pieceArray[k].moveKing(chosenPiece,button[i].id,chosenPieceSrc);
+                    check("white");
                     }
                 }
             }
         }
+        else if (chosenPieceName.includes('king')&&chosenPieceColor.includes("black")){
+            if (checkValidMoveKing(chosenPiece,button[i].id)){
+                console.log("right move");
+                for (let k=0;k<pieceArrayb.length;k++){
+                    if (pieceArrayb[k].positionn==chosenPiece){
+                    pieceArrayb[k].moveKing(chosenPiece,button[i].id,chosenPieceSrc);
+                    check("black");
+                    }
+                }
+            }
+        }
+        checkGameOver();
         }
     
     else{
@@ -111,10 +183,17 @@ button[i].addEventListener('click',()=>{ //if whiteturn
             if (pieceArray[i].positionn==chosenPiece){
             chosenPieceIsFirstTime=pieceArray[i].isFirstTime;
             chosenPieceName=pieceArray[i].name;
+            chosenPieceColor=pieceArray[i].color;
+            }
+        for (let i=0;i<pieceArrayb.length;i++){
+             if (pieceArrayb[i].positionn==chosenPiece){
+            chosenPieceIsFirstTime=pieceArrayb[i].isFirstTime;
+            chosenPieceName=pieceArrayb[i].name;
+            chosenPieceColor=pieceArrayb[i].color;
             }
         }
         }
-    }
+    }}
     clicked=!clicked;
 });
 }
@@ -212,7 +291,7 @@ var knight0w=new Piece("knight0","spot71w","./pieces/knight.png","white");
 var knight1w=new Piece("knight1","spot76b","./pieces/knight.png","white");
 var bishop0w=new Piece("bishop0","spot72b","./pieces/bishop.png","white");
 var bishop1w=new Piece("bishop1","spot75w","./pieces/bishop.png","white");
-var queenw=new Piece("queenw","spot73w","./pieces/queen.png","white");
+var queenw=new Piece("queen","spot73w","./pieces/queen.png","white");
 var kingw=new Piece("king","spot74b","./pieces/king.png","white");
 var pieceArray = [pawnn0w,pawnn1w,pawnn2w,pawnn3w,pawnn4w,pawnn5w,pawnn6w,pawnn7w,rook0w,rook1w,knight0w,knight1w,bishop0w,bishop1w,queenw,kingw];
 
@@ -230,7 +309,7 @@ var knight0b=new Piece("knight0","spot01b","./pieces/knightb.png","black");
 var knight1b=new Piece("knight1","spot06w","./pieces/knightb.png","black");
 var bishop0b=new Piece("bishop0","spot02w","./pieces/bishopb.png","black");
 var bishop1b=new Piece("bishop1","spot05b","./pieces/bishopb.png","black");
-var queenb=new Piece("queenw","spot03b","./pieces/queenb.png","black");
+var queenb=new Piece("queen","spot03b","./pieces/queenb.png","black");
 var kingb=new Piece("king","spot04w","./pieces/kingb.png","black");
 var pieceArrayb = [pawnn0b,pawnn1b,pawnn2b,pawnn3b,pawnn4b,pawnn5b,pawnn6b,pawnn7b,rook0b,rook1b,knight0b,knight1b,bishop0b,bishop1b,queenb,kingb];
 
@@ -256,12 +335,25 @@ else{
     else return false;
 }
 }
-function isEmpty(position){
-    if (document.getElementById(position).innerHTML=="")
+function isEmpty(position,color){
+        if(color=="black"){
+        for (let i=0;i<pieceArrayb.length;i++){
+            if (pieceArrayb[i].position==position){
+                return false;
+            }
+        }
+        }
+        else if (color=="white"){
+            for (let i=0;i<pieceArray.length;i++){
+                if (pieceArray[i].position==position){
+                    return false;
+                }
+            }
+        }
     return true;
-    else return false;
 }
-function checkValidMoveRook(oldposition,newposition){
+
+function checkValidMoveRook(oldposition,newposition,color){
     var goUp=false;
     var goDown=false;
     var goRight=false;
@@ -282,39 +374,73 @@ function checkValidMoveRook(oldposition,newposition){
         else
         goLeft=true;
     }
-    if ((Number(newposition.charAt(5))==Number(oldposition.charAt(5))||(Number(newposition.charAt(4)==Number(oldposition.charAt(4)))))&&isEmpty(newposition)){
+    if ((Number(newposition.charAt(5))==Number(oldposition.charAt(5))||(Number(newposition.charAt(4)==Number(oldposition.charAt(4)))))&&isEmpty(newposition,color)){
         if (goUp){
-            for (let i=Number(newposition.charAt(4));i<Number(oldposition.charAt(4));i++){
+            for (let i=Number(newposition.charAt(4))+1;i<Number(oldposition.charAt(4));i++){
                 for (let k=0;k<pieceArray.length;k++){
                     if (pieceArray[k].position.includes(`spot${i}`+oldposition.charAt(5)))
                     return false;
                 }
             }
-        }
+                for (let i=Number(newposition.charAt(4))+1;i<Number(oldposition.charAt(4));i++){
+                    for (let k=0;k<pieceArrayb.length;k++){
+                        if (pieceArrayb[k].position.includes(`spot${i}`+oldposition.charAt(5)))
+                        return false;
+                    }
+                }
+            }
         else if (goDown){
+      
             for (let i=Number(oldposition.charAt(4))+1;i<Number(newposition.charAt(4));i++){
                 for (let k=0;k<pieceArray.length;k++){
                     if (pieceArray[k].position.includes(`spot${i}`+oldposition.charAt(5)))
                     return false;
                 }
             }
+            
+        
+            for (let i=Number(oldposition.charAt(4))+1;i<Number(newposition.charAt(4));i++){
+                for (let k=0;k<pieceArrayb.length;k++){
+                    if (pieceArrayb[k].position.includes(`spot${i}`+oldposition.charAt(5)))
+                    return false;
+                }
+            }
+        
         }
         else if (goRight){
-            console.log("Goright");
+         
             for (let i=Number(oldposition.charAt(5))+1;i<Number(newposition.charAt(5));i++){
                 for (let k=0;k<pieceArray.length;k++){
                     if(pieceArray[k].position.includes("spot"+oldposition.charAt(4)+`${i}`))
                     return false;
                 }
             }
+        
+       
+            for (let i=Number(oldposition.charAt(5))+1;i<Number(newposition.charAt(5));i++){
+                for (let k=0;k<pieceArrayb.length;k++){
+                    if(pieceArrayb[k].position.includes("spot"+oldposition.charAt(4)+`${i}`))
+                    return false;
+                }
+            }
+        
         }
         else if (goLeft){
+            
             for (let i=Number(newposition.charAt(5))+1;i<Number(oldposition.charAt(5));i++){
                 for (let k=0;k<pieceArray.length;k++){
                     if(pieceArray[k].position.includes("spot"+oldposition.charAt(4)+`${i}`))
                     return false;
                 }
             }
+       
+            for (let i=Number(newposition.charAt(5))+1;i<Number(oldposition.charAt(5));i++){
+                for (let k=0;k<pieceArrayb.length;k++){
+                    if(pieceArrayb[k].position.includes("spot"+oldposition.charAt(4)+`${i}`))
+                    return false;
+                }
+            }
+        
         }
         return true;
     }
@@ -338,7 +464,7 @@ function checkValidMoveKnight(oldposition,newposition){
     }
     return false;
 }
-function checkValidMoveBishop(oldposition,newposition){
+function checkValidMoveBishop(oldposition,newposition,color){
     var goUpRight=false;
     var goUpLeft=false;
     var goDownRight=false;
@@ -355,8 +481,9 @@ function checkValidMoveBishop(oldposition,newposition){
         else
         goDownLeft=true;
     }
-    if (((newposition.slice(4,6)-oldposition.slice(4,6))%11==0||(newposition.slice(4,6)-oldposition.slice(4,6))%9==0)&&isEmpty(newposition)){
+    if (((newposition.slice(4,6)-oldposition.slice(4,6))%11==0||(newposition.slice(4,6)-oldposition.slice(4,6))%9==0)&&isEmpty(newposition,color)){
         if (goUpRight){
+            console.log("go upright")
             var temp=1;
             for (let i=Number(oldposition.charAt(4))-1;i>newposition.charAt(4);i--){
                 for (let k=0;k<pieceArray.length;k++){
@@ -365,16 +492,32 @@ function checkValidMoveBishop(oldposition,newposition){
                 }
                 temp=temp+1;
             }
+            var temp1=1;
+            for (let i=Number(oldposition.charAt(4))-1;i>newposition.charAt(4);i--){
+                for (let k=0;k<pieceArrayb.length;k++){
+                    if(pieceArrayb[k].position.includes(`spot${i}`+String((Number(oldposition.charAt(5))+temp1))))
+                    return false;
+                }
+                temp1=temp1+1;
+            }
         }
         else if (goUpLeft){
             var temp=-1;
-            console.log("downright");
             for (let i=Number(oldposition.charAt(4))-1;i>newposition.charAt(4);i--){
                 for (let k=0;k<pieceArray.length;k++){
                     if(pieceArray[k].position.includes(`spot${i}`+String((Number(oldposition.charAt(5))+temp))))
                     return false;
                 }
                 temp=temp-1;
+            }
+
+            var temp1=-1;
+            for (let i=Number(oldposition.charAt(4))-1;i>newposition.charAt(4);i--){
+                for (let k=0;k<pieceArrayb.length;k++){
+                    if(pieceArrayb[k].position.includes(`spot${i}`+String((Number(oldposition.charAt(5))+temp1))))
+                    return false;
+                }
+                temp1=temp1-1;
             }
         }
         else if (goDownLeft){
@@ -386,10 +529,18 @@ function checkValidMoveBishop(oldposition,newposition){
                 }
                 temp=temp-1;
             }
+
+            var temp1=-1;
+            for (let i=Number(oldposition.charAt(4))+1;i<newposition.charAt(4);i++){
+                for (let k=0;k<pieceArrayb.length;k++){
+                    if(pieceArrayb[k].position.includes(`spot${i}`+String((Number(oldposition.charAt(5))+temp1))))
+                    return false;
+                }
+                temp1=temp1-1;
+            }
         }
         else if (goDownRight){
             var temp=1;
-            console.log("downright");
             for (let i=Number(oldposition.charAt(4))+1;i<newposition.charAt(4);i++){
                 console.log(`spot${i}`+String((Number(oldposition.charAt(5))+temp)))
                 for (let k=0;k<pieceArray.length;k++){
@@ -397,6 +548,16 @@ function checkValidMoveBishop(oldposition,newposition){
                     return false;
                 }
                 temp=temp+1;
+            }
+
+            var temp1=1;
+            for (let i=Number(oldposition.charAt(4))+1;i<newposition.charAt(4);i++){
+                console.log(`spot${i}`+String((Number(oldposition.charAt(5))+temp1)))
+                for (let k=0;k<pieceArrayb.length;k++){
+                    if(pieceArrayb[k].position.includes(`spot${i}`+String((Number(oldposition.charAt(5))+temp1))))
+                    return false;
+                }
+                temp1=temp1+1;
             }
         }
         return true;
@@ -422,3 +583,49 @@ function checkValidMoveKing(oldposition,newposition){
     }
     return false;
 }
+function checkValidMovePawnBlack(position1,position2,isFirstTime){
+    if (isFirstTime){
+        if (Number(position2.charAt(5))==Number(position1.charAt(5))&&(Number(position2.charAt(4))==Number(position1.charAt(4))+1||Number(position2.charAt(4))==Number(position1.charAt(4))+2)&&isEmpty(position2,"black")){
+            for (let i=0;i<pieceArrayb.length;i++){
+                if (pieceArrayb[i].positionn==position1){
+                    pieceArrayb[i].isFirstTime=false;
+                }
+            }
+            return true;
+        }
+        else return false;
+    }
+    else{
+        if (Number(position2.charAt(5))==Number(position1.charAt(5))&&Number(position2.charAt(4))==Number(position1.charAt(4))+1&&isEmpty(position2,"black")){
+        return true;
+        }
+        else return false;
+    }
+    }
+    function check(color){
+        for (let i=0;i<pieceArray.length;i++){
+            for (let j=0;j<pieceArrayb.length;j++){
+                if (pieceArrayb[j].positionn==pieceArray[i].positionn){
+                   var temp= document.getElementById(pieceArrayb[j].position);
+                   temp.removeChild(temp.firstElementChild);
+                    if (color=="black"){
+                        pieceArray.splice(i,1);
+                    }
+                    else if (color=="white"){
+                        pieceArrayb.splice(j,1);
+                    }
+                }
+            }
+        }
+    }
+   function checkGameOver(){
+       var winner=true;
+    for (let i=0;i<pieceArrayb.length;i++){
+        if (pieceArrayb[i].name.includes("king")){
+            winner=false;
+        }
+    }
+    if (winner){
+        alert("We have a winner");
+    }
+    }
