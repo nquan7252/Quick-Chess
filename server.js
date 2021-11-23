@@ -14,11 +14,13 @@ io.on('connection',socket =>{
         console.log("White player connected");
         isWhite=!isWhite;
         whiteConnected=true;
+        io.emit('playerConnect',"white");
     }
     else{ 
         console.log("Black player connected");
         blackConnected=true;
         isWhite=!isWhite;
+        io.emit("playerConnect","black")
     }
 
    socket.on("move",(chosenPieceName,chosenPieceColor,oldposition,newposition,src)=>{

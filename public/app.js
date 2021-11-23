@@ -1,4 +1,6 @@
 let board=[[]];
+let whitePlayer=false;
+let blackPlayer=false;
 var pieceArray;
 var pieceArrayb;
 let clicked=false;
@@ -735,10 +737,34 @@ function updateTurn(){
 }
 const socket=io();
 socket.on("updatemove",(chosenPieceName,chosenPieceColor,oldposition,newposition,src)=>{
-    if (chosenPieceName.includes('pawn')){
+    if (chosenPieceName.includes('pawn')&&chosenPieceColor.includes("white")){
         for (let i=0;i<pieceArray.length;i++){
-            if (pieceArray[i].position==oldposition)
+            if (pieceArray[i].position==oldposition){
             pieceArray[i].movePawn(oldposition,newposition,src);
+            check("white");
+            }
+        }
+    }
+    else if (chosenPieceName.includes('pawn')&&chosenPieceColor.includes("black")){
+        for (let i=0;i<pieceArrayb.length;i++){
+            if (pieceArrayb[i].position==oldposition)
+            pieceArrayb[i].movePawn(oldposition,newposition,src);
+        }
+    }
+    else if (chosenPieceName.includes('rook')&&chosenPieceColor.includes("white")){
+        for (let i=0;i<pieceArray.length;i++){
+            if (pieceArray[i].position==oldposition){
+            pieceArray[i].moveRook(oldposition,newposition,src);
+            check("white");
+            }
         }
     }
 });
+socket.on("playerConnect",player=>{
+    if (player=="white"){
+        whitePlayer=true;
+    }
+    else if (player=="black"){
+        blackPlayer=true;
+    }
+})
