@@ -1,6 +1,12 @@
 .board{
     margin-top: 5em;
-    height:5em
+    margin-left:5em;
+    height:fit-content;
+    width:fit-content;
+    outline: 30px solid black;
+
+
+    
 }
 body{
     height: 95vh;
@@ -11,40 +17,128 @@ body{
     height: 5.5em;
     z-index: 5;
 }
-
+.boardbigcontainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 [id^=spot]{
+    display: flex;
     text-align: center;
     justify-content: center;
     justify-items: center;
     align-items: center;
 }
 [id^=line]{
-    width: 100vw;
-    height:100px;
+    width: fit-content;
+    height:250px;
     display: flex;
 }
 [id$=b]{
     height: 100px;
-    background-color:black;
+    background-color:#673D18;
     position:relative;
-    width:100px;
-    height:100px;
+    width:250px;
+    height:250px;
 }
 [id$=w]{
     height: 100px;
     background-color:wheat;
     position:relative;
-    width:100px;
-    height:100px;
+    width:250px;
+    height:250px;
 }
 
 [id^=spot]:hover{
-    outline:4px solid gold;
+    outline:10px solid black;
+    z-index: 100;
 }
 img{
-    width: 80px;
-    height: 80px;
+    width: 180px;
+    height: 180px;
 }
 .page{
     display: flex;
+    height:100%
+}
+.turndisplaycontainer{
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.turndisplay{
+    font-size: 10em;
+}
+.roomid{
+    font-size:10em;
+}
+.hiddenmessage{
+    font-size:10em
+}
+@media (max-width:3590px) {
+    [id^=line]{
+        width: fit-content;
+        height:200px;
+        display: flex;
+    }
+    [id$=b]{
+        height: 100px;
+        background-color:#673D18;
+        position:relative;
+        width:200px;
+        height:200px;
+    }
+    [id$=w]{
+        height: 100px;
+        background-color:wheat;
+        position:relative;
+        width:200px;
+        height:200px;
+    }
+    img{
+        width: 180px;
+        height: 180px;
+    }
+    .turndisplay,.roomid,.hiddenmessage{
+        font-size: 8em;
+    }
+}
+@media (max-width:2950px){
+    [id^=line]{
+        width: fit-content;
+        height:7vw;
+        display: flex;
+    }
+    [id$=b]{
+        height: 100px;
+        background-color:#673D18;
+        position:relative;
+        width:7vw;
+        height:7vw;
+    }
+    [id$=w]{
+        height: 100px;
+        background-color:wheat;
+        position:relative;
+        width:7vw;
+        height:7vw;
+    }
+    img{
+        width: 5vw;
+        height: 5vw;
+    }
+    .turndisplay,.roomid,.hiddenmessage{
+        font-size: 3vw;
+    }
+}
+@media (max-width:1200px){
+    .page{
+        display:block;
+        margin-top: 50%;
+    }
+    .turndisplaycontainer{
+        margin-top: 50px;
+    }
 }
