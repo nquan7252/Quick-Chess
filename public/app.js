@@ -55,7 +55,6 @@ for (let i = 0; i < button.length; i++) {
         if (clicked) {
             if (chosenPieceName.includes('pawn') && chosenPieceColor.includes("white")) {
                 if (checkValidMovePawn(chosenPiece, button[i].id, chosenPieceIsFirstTime)) {
-                    console.log("right move");
                     for (let k = 0; k < pieceArray.length; k++) {
                         if (pieceArray[k].positionn == chosenPiece) {
                             pieceArray[k].movePawn(chosenPiece, button[i].id, chosenPieceSrc)
@@ -72,7 +71,6 @@ for (let i = 0; i < button.length; i++) {
             }
             else if (chosenPieceName.includes('pawn') && chosenPieceColor.includes("black")) {
                 if (checkValidMovePawnBlack(chosenPiece, button[i].id, chosenPieceIsFirstTime)) {
-                    console.log("right move");
                     for (let k = 0; k < pieceArrayb.length; k++) {
                         if (pieceArrayb[k].positionn == chosenPiece) {
                             pieceArrayb[k].movePawn(chosenPiece, button[i].id, chosenPieceSrc)
@@ -123,7 +121,6 @@ for (let i = 0; i < button.length; i++) {
             }
             else if (chosenPieceName.includes('knight') && chosenPieceColor.includes("white")) {
                 if (checkValidMoveKnight(chosenPiece, button[i].id, "white")) {
-                    console.log("right move");
                     for (let k = 0; k < pieceArray.length; k++) {
                         if (pieceArray[k].positionn == chosenPiece) {
                             pieceArray[k].moveKnight(chosenPiece, button[i].id, chosenPieceSrc);
@@ -141,7 +138,6 @@ for (let i = 0; i < button.length; i++) {
             }
             else if (chosenPieceName.includes('knight') && chosenPieceColor.includes("black")) {
                 if (checkValidMoveKnight(chosenPiece, button[i].id, "black")) {
-                    console.log("right move");
                     for (let k = 0; k < pieceArrayb.length; k++) {
                         if (pieceArrayb[k].positionn == chosenPiece) {
                             pieceArrayb[k].moveKnight(chosenPiece, button[i].id, chosenPieceSrc);
@@ -160,7 +156,6 @@ for (let i = 0; i < button.length; i++) {
 
             else if (chosenPieceName.includes('bishop') && chosenPieceColor.includes("white")) {
                 if (checkValidMoveBishop(chosenPiece, button[i].id, "white")) {
-                    console.log("right move");
                     for (let k = 0; k < pieceArray.length; k++) {
                         if (pieceArray[k].positionn == chosenPiece) {
                             pieceArray[k].moveBishop(chosenPiece, button[i].id, chosenPieceSrc);
@@ -178,7 +173,6 @@ for (let i = 0; i < button.length; i++) {
             }
             else if (chosenPieceName.includes('bishop') && chosenPieceColor.includes("black")) {
                 if (checkValidMoveBishop(chosenPiece, button[i].id, "black")) {
-                    console.log("right move");
                     for (let k = 0; k < pieceArrayb.length; k++) {
                         if (pieceArrayb[k].positionn == chosenPiece) {
                             pieceArrayb[k].moveBishop(chosenPiece, button[i].id, chosenPieceSrc);
@@ -196,7 +190,6 @@ for (let i = 0; i < button.length; i++) {
             }
             else if (chosenPieceName.includes('queen') && chosenPieceColor.includes("white")) {
                 if (checkValidMoveBishop(chosenPiece, button[i].id, "white") || checkValidMoveRook(chosenPiece, button[i].id, "white")) {
-                    console.log("right move");
                     for (let k = 0; k < pieceArray.length; k++) {
                         if (pieceArray[k].positionn == chosenPiece) {
                             pieceArray[k].moveQueen(chosenPiece, button[i].id, chosenPieceSrc);
@@ -214,7 +207,6 @@ for (let i = 0; i < button.length; i++) {
             }
             else if (chosenPieceName.includes('queen') && chosenPieceColor.includes("black")) {
                 if (checkValidMoveBishop(chosenPiece, button[i].id, "black") || checkValidMoveRook(chosenPiece, button[i].id, "black")) {
-                    console.log("right move");
                     for (let k = 0; k < pieceArrayb.length; k++) {
                         if (pieceArrayb[k].positionn == chosenPiece) {
                             pieceArrayb[k].moveQueen(chosenPiece, button[i].id, chosenPieceSrc);
@@ -232,7 +224,6 @@ for (let i = 0; i < button.length; i++) {
             }
             else if (chosenPieceName.includes('king') && chosenPieceColor.includes("white")) {
                 if (checkValidMoveKing(chosenPiece, button[i].id, "white")) {
-                    console.log("right move");
                     for (let k = 0; k < pieceArray.length; k++) {
                         if (pieceArray[k].positionn == chosenPiece) {
                             pieceArray[k].moveKing(chosenPiece, button[i].id, chosenPieceSrc);
@@ -250,7 +241,6 @@ for (let i = 0; i < button.length; i++) {
             }
             else if (chosenPieceName.includes('king') && chosenPieceColor.includes("black")) {
                 if (checkValidMoveKing(chosenPiece, button[i].id, "black")) {
-                    console.log("right move");
                     for (let k = 0; k < pieceArrayb.length; k++) {
                         if (pieceArrayb[k].positionn == chosenPiece) {
                             pieceArrayb[k].moveKing(chosenPiece, button[i].id, chosenPieceSrc);
@@ -437,7 +427,6 @@ function initialize() {
 
 function checkValidMovePawn(position1, position2, isFirstTime) {
     if (isFirstTime) {
-        console.log("first time")
         if (Number(position2.charAt(5)) == Number(position1.charAt(5)) && (Number(position2.charAt(4)) == Number(position1.charAt(4) - 1) || Number(position2.charAt(4)) == Number(position1.charAt(4) - 2)) && isEmpty(position2)) {
             for (let i = 0; i < pieceArray.length; i++) {
                 if (pieceArray[i].positionn == position1) {
@@ -449,7 +438,6 @@ function checkValidMovePawn(position1, position2, isFirstTime) {
         else return false;
     }
     else {
-        console.log("not first time")
         if (Number(position2.charAt(5)) == Number(position1.charAt(5)) && Number(position2.charAt(4)) == Number(position1.charAt(4) - 1) && isEmpty(position2)) {
             return true;
         }
@@ -604,7 +592,6 @@ function checkValidMoveBishop(oldposition, newposition, color) {
     }
     if (((newposition.slice(4, 6) - oldposition.slice(4, 6)) % 11 == 0 || (newposition.slice(4, 6) - oldposition.slice(4, 6)) % 9 == 0) && isEmpty(newposition, color)) {
         if (goUpRight) {
-            console.log("go upright")
             var temp = 1;
             for (let i = Number(oldposition.charAt(4)) - 1; i > newposition.charAt(4); i--) {
                 for (let k = 0; k < pieceArray.length; k++) {
@@ -663,7 +650,6 @@ function checkValidMoveBishop(oldposition, newposition, color) {
         else if (goDownRight) {
             var temp = 1;
             for (let i = Number(oldposition.charAt(4)) + 1; i < newposition.charAt(4); i++) {
-                console.log(`spot${i}` + String((Number(oldposition.charAt(5)) + temp)))
                 for (let k = 0; k < pieceArray.length; k++) {
                     if (pieceArray[k].position.includes(`spot${i}` + String((Number(oldposition.charAt(5)) + temp))))
                         return false;
@@ -673,7 +659,6 @@ function checkValidMoveBishop(oldposition, newposition, color) {
 
             var temp1 = 1;
             for (let i = Number(oldposition.charAt(4)) + 1; i < newposition.charAt(4); i++) {
-                console.log(`spot${i}` + String((Number(oldposition.charAt(5)) + temp1)))
                 for (let k = 0; k < pieceArrayb.length; k++) {
                     if (pieceArrayb[k].position.includes(`spot${i}` + String((Number(oldposition.charAt(5)) + temp1))))
                         return false;
@@ -814,7 +799,6 @@ function enableAllButtons() {
 }
 
 socket.on("updatemove",(data) => {
-    console.log("new move received");
     if (data.cpn.includes('pawn') && data.cpc.includes("white")) {
         for (let i = 0; i < pieceArray.length; i++) {
             if (pieceArray[i].position == data.cp) {
@@ -947,11 +931,9 @@ socket.on("nextTurn",()=>{
 })
 
 socket.on("message",msg=>{
-    console.log(msg)
 })
 socket.on("gameover",()=>{
     socket.emit("synchronize",{turn:whiteturn,id:roomid});
-    console.log("gameover");
     disableAllButtons();
     
 })
@@ -964,7 +946,6 @@ socket.on("checkwinnerResponse",()=>{
         }
         else{ document.getElementById("turndisplay").innerHTML="Black wins"}
         socket.emit("havewinner",roomid);
-        console.log("stop game")
     }
 });
 socket.on("synchronizeDone",value=>{
@@ -977,7 +958,6 @@ socket.on("synchronizeDone",value=>{
 })
 socket.on("readyToPlayResponse",()=>{
 document.getElementById('hiddenmessage').innerHTML="a"
-console.log("all players connected");
 })
 socket.on("ready",()=>{
 document.getElementById('hiddenmessage').innerHTML=""
@@ -988,7 +968,6 @@ alert('All players are ready, let the game begin!');
 /*
 socket.on("firstConnection",msg=>{
     disableAllButtons();
-   // console.log("You are the second user");
     document.getElementById('board').style.transformOrigin="center";
 
    var spotList=document.querySelectorAll('[id^="spot"]')
@@ -1002,11 +981,9 @@ socket.on("firstConnection",msg=>{
 */
 socket.on("checkForSecondTrue",()=>{
     enableAllButtons();
-    console.log("You are the second user");
    
 })
 socket.on("checkForFirstTrue",()=>{
-    console.log("you are the first user")
     document.getElementById('board').style.transformOrigin="center";
 
     var spotList=document.querySelectorAll('[id^="spot"]')
