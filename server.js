@@ -12,6 +12,7 @@ var connectCounter=0;
 const server=http.createServer(app);
 const io=socketio(server);
 app.use(express.static(path.join(__dirname,'public')));
+const PORT=process.env.PORT||8888;
 io.on('connection',socket =>{
     socket.on("checkFor2nd",data=>{
         console.log('check called');
@@ -112,4 +113,4 @@ function checkRoom(roomid){
     }
     return false;
 }
-server.listen(8888,()=>console.log("running on 8888")); 
+server.listen(PORT,()=>console.log("running on 8888")); 
