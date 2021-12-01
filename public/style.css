@@ -107,26 +107,26 @@ img{
 @media (max-width:2950px){
     [id^=line]{
         width: fit-content;
-        height:7vw;
+        height:6vw;
         display: flex;
     }
     [id$=b]{
         height: 100px;
         background-color:#673D18;
         position:relative;
-        width:7vw;
-        height:7vw;
+        width:6vw;
+        height:6vw;
     }
     [id$=w]{
         height: 100px;
         background-color:wheat;
         position:relative;
-        width:7vw;
-        height:7vw;
+        width:6vw;
+        height:6vw;
     }
     img{
-        width: 5vw;
-        height: 5vw;
+        width: 4.5vw;
+        height: 4.5vw;
     }
     .turndisplay,.roomid,.hiddenmessage{
         font-size: 3vw;
