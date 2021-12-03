@@ -1,23 +1,45 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="style.css">
-        <script src="/socket.io/socket.io.js"></script>
-        <script async src="app.js"></script>
-    </head>
-    <body>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script async src="app.js"></script>
+</head>
+
+<body>
     <div class="page">
+        <div class="empty"></div>
         <div class="boardbigcontainer">
-        <div id="board" class="board">
+            <div class="modal-container-extra-big" id="modal-container-extra-big">
+                <div class="modal-container-big">
+                    <div class="modal-container">
+                        <div class="pawn-promotion-banner">Pawn Promotion</div>
+                        <div class="image-holder">
+                            <img id="rook-promotion" src="./pieces/rook.png">
+                            <img id="bishop-promotion" src="./pieces/bishop.png">
+                            <img id="knight-promotion" src="./pieces/knight.png">
+                            <img id="queen-promotion" src="./pieces/queen.png">
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div id="board" class="board">
+                
+            </div>
+            
         </div>
         <div id="turndisplaycontainer" class="turndisplaycontainer">
             <div class="turndisplaysubcontainer">
                 <div class="roomid" id="roomid">Room's ID:</div>
-                <div class="turndisplay"id="turndisplay">White's turn</div>
+                <div class="turndisplay" id="turndisplay">White's turn</div>
                 <div class="hiddenmessage" id="hiddenmessage"></div>
             </div>
         </div>
+        <div class='attribution'>
+            <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+        </div>
     </div>
-    </body>
+</body>
+
 </html>

@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+*{
+    box-sizing: border-box;
+}
 .board{
  
     height:fit-content;
@@ -8,7 +12,15 @@
     
 }
 body{
-    height: 95vh;
+    font-family: 'Open Sans',sans-serif;
+
+    height: 100vh;
+}
+#number{
+    position:absolute;
+}
+.empty{
+    width:100%;
 }
 #rook{
     position: absolute;
@@ -20,6 +32,10 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.attribution{
+    position:absolute;
+    bottom: 0;;
 }
 [id^=spot]{
     display: flex;
@@ -62,19 +78,66 @@ img{
 }
 .turndisplaycontainer{
     display: flex;
-    width: 100vw;
+    width: 100%;
     justify-content: center;
     align-items: center;
     text-align: center;
 }
 .turndisplay{
-    font-size: 10em;
+    font-size: 2vw;
 }
 .roomid{
-    font-size:10em;
+    font-size:2vw;
 }
 .hiddenmessage{
-    font-size:10em
+    font-size:2vw
+}
+.modal-container-extra-big{
+    position:absolute;
+    z-index:100;
+    display: none;
+}
+.modal-container-big{
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height: fit-content;
+    text-align: center;
+}
+.image-holder img{
+    outline: 5px solid black;
+    margin:0 15px;
+    transition: 1s;
+    padding: 8px 8px;
+}
+.image-holder img:hover{
+    background-color: black;
+}
+.modal-container{
+    display: block;
+    width: fit-content;
+    background-color: white;
+    text-align: center;
+    padding: 20px 20px;
+    border-radius: 20px;
+}
+.image-holder{
+    margin-top: 10px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+}
+.pawn-promotion-banner{
+    font-weight: 600;
+    text-align: center;
+    font-size: 2.5em;
+}
+.alphabet{
+    display: flex;
 }
 @media (max-width:3590px) {
     [id^=line]{
@@ -100,9 +163,7 @@ img{
         width: 180px;
         height: 180px;
     }
-    .turndisplay,.roomid,.hiddenmessage{
-        font-size: 8em;
-    }
+ 
 }
 @media (max-width:2950px){
     [id^=line]{
@@ -129,7 +190,7 @@ img{
         height: 4.5vw;
     }
     .turndisplay,.roomid,.hiddenmessage{
-        font-size: 3vw;
+        font-size: 2vw;
     }
 }
 @media (max-width:1200px){

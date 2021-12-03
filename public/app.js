@@ -15,15 +15,21 @@ var userId=socket.id;
 var url=document.location.href;
 var roomid=url.substring(url.indexOf('=')+1,url.length)
 var gameOver=false;
+const alphabet=['a','b','c','d','e','f','g','h']
+const number=['1','2','3','4','5','6','7','8']
 document.getElementById('roomid').innerHTML="Room's ID:"+roomid;
 document.getElementById('hiddenmessage').innerHTML="Waiting for opponent..."
 
 
 for (let i = 0; i < 8; i++) {
-    // board[j]="";
+    
+
     var line = document.createElement('div');
     line.setAttribute("id", "line" + i);
     document.getElementById("board").appendChild(line);
+
+
+   
 }
 for (let j = 0; j < 8; j++) {
     for (let i = 0; i < 8; i++) {
@@ -58,26 +64,43 @@ for (let i = 0; i < button.length; i++) {
                     for (let k = 0; k < pieceArray.length; k++) {
                         if (pieceArray[k].positionn == chosenPiece) {
                             pieceArray[k].movePawn(chosenPiece, button[i].id, chosenPieceSrc)
-                            socket.emit("move",{id:roomid,cpn: chosenPieceName,cpc: chosenPieceColor,cp: chosenPiece,b: button[i].id,cps: chosenPieceSrc})
-                            check("white");
-                            disableAllButtons();
-                            socket.emit("nextTurn",roomid);
+                            check('white');
+                            socket.emit("checkwinner",roomid);
+                            if (gameOver==false)
+                            checkPawnPromotion(pieceArray[k],roomid,chosenPieceName,chosenPieceColor,chosenPiece,button[i].id,chosenPieceSrc);
+                           
+                           
+                            async function test(pieceArray,roomid,chosenPieceName,chosenPieceColor,chosenPiece,button,chosenPieceSrc){
+                              await checkPawnPromotion(pieceArray,roomid,chosenPieceName,chosenPieceColor,chosenPiece,button,chosenPieceSrc);
+
+                            }
+                            /*
+                                socket.emit("move",{id:roomid,cpn: chosenPieceName,cpc: chosenPieceColor,cp: chosenPiece,b: button[i].id,cps: chosenPieceSrc})
+                                check("white");
+                                disableAllButtons();
+                                socket.emit("nextTurn",roomid);
+                            */
                         }
                     }
                 }
+                        
+                    
+                
                 else {
                     whiteturn = !whiteturn;
                 }
             }
+            
             else if (chosenPieceName.includes('pawn') && chosenPieceColor.includes("black")) {
                 if (checkValidMovePawnBlack(chosenPiece, button[i].id, chosenPieceIsFirstTime)) {
                     for (let k = 0; k < pieceArrayb.length; k++) {
                         if (pieceArrayb[k].positionn == chosenPiece) {
                             pieceArrayb[k].movePawn(chosenPiece, button[i].id, chosenPieceSrc)
-                            socket.emit("move",{id:roomid,cpn: chosenPieceName,cpc: chosenPieceColor,cp: chosenPiece,b: button[i].id,cps: chosenPieceSrc})
-                            check("black");
-                            disableAllButtons();
-                            socket.emit("nextTurn",roomid);
+                            check('black');
+                            socket.emit("checkwinner",roomid);
+                            if (gameOver==false)
+                            checkPawnPromotionBlack(pieceArrayb[k],roomid,chosenPieceName,chosenPieceColor,chosenPiece,button[i].id,chosenPieceSrc);
+
                         }
                     }
                 }
@@ -260,7 +283,6 @@ for (let i = 0; i < button.length; i++) {
             updateTurn();
             whiteturn = !whiteturn;
             socket.emit("updateTurn",{id:roomid,value:whiteturn});
-            
             }
 
         }
@@ -426,8 +448,9 @@ function initialize() {
 }
 
 function checkValidMovePawn(position1, position2, isFirstTime) {
-    if (isFirstTime) {
-        if (Number(position2.charAt(5)) == Number(position1.charAt(5)) && (Number(position2.charAt(4)) == Number(position1.charAt(4) - 1) || Number(position2.charAt(4)) == Number(position1.charAt(4) - 2)) && isEmpty(position2)) {
+    if(checkNoBlocking(position1,position2)){
+        if (isFirstTime) {
+        if (Number(position2.charAt(5)) == Number(position1.charAt(5)) && (Number(position2.charAt(4)) == Number(position1.charAt(4) - 1) || Number(position2.charAt(4)) == Number(position1.charAt(4) - 2)) && isEmpty(position2,"black")&&isEmpty(position2,"white")) {
             for (let i = 0; i < pieceArray.length; i++) {
                 if (pieceArray[i].positionn == position1) {
                     pieceArray[i].isFirstTime = false;
@@ -438,11 +461,17 @@ function checkValidMovePawn(position1, position2, isFirstTime) {
         else return false;
     }
     else {
-        if (Number(position2.charAt(5)) == Number(position1.charAt(5)) && Number(position2.charAt(4)) == Number(position1.charAt(4) - 1) && isEmpty(position2)) {
+        if (Number(position2.charAt(5)) == Number(position1.charAt(5)) && Number(position2.charAt(4)) == Number(position1.charAt(4) - 1) && isEmpty(position2,"black")&&isEmpty(position2,"white")) {
             return true;
         }
         else return false;
     }
+}
+
+if (checkDiagonalizable(position1,position2)){
+    return true;
+}
+return false;
 }
 function isEmpty(position, color) {
     if (color == "black") {
@@ -690,6 +719,7 @@ function checkValidMoveKing(oldposition, newposition, color) {
     return false;
 }
 function checkValidMovePawnBlack(position1, position2, isFirstTime) {
+    if(checkNoBlockingBlack(position1,position2)){
     if (isFirstTime) {
         if (Number(position2.charAt(5)) == Number(position1.charAt(5)) && (Number(position2.charAt(4)) == Number(position1.charAt(4)) + 1 || Number(position2.charAt(4)) == Number(position1.charAt(4)) + 2) && isEmpty(position2, "black")) {
             for (let i = 0; i < pieceArrayb.length; i++) {
@@ -707,6 +737,11 @@ function checkValidMovePawnBlack(position1, position2, isFirstTime) {
         }
         else return false;
     }
+}
+    if (checkDiagonalizableBlack(position1,position2)){
+     return true;
+    }
+    return false;
 }
 function check(color) {
     loop1:
@@ -797,7 +832,215 @@ function enableAllButtons() {
         document.getElementById(button[i].id).style.pointerEvents = 'auto';
     }
 }
+function checkNoBlocking(oldposition,newposition){
+    if (newposition.charAt(5)==oldposition.charAt(5)&&(newposition.charAt(4)==Number(oldposition.charAt(4))-2||newposition.charAt(4)==Number(oldposition.charAt(4))-1)&&isEmpty(newposition,"black")&&isEmpty(newposition,"white")){
+        return true;
+    }
+    return false;
+}
+function checkNoBlockingBlack(oldposition,newposition){
+    if (newposition.charAt(5)==oldposition.charAt(5)&&(newposition.charAt(4)==Number(oldposition.charAt(4))+2||newposition.charAt(4)==Number(oldposition.charAt(4))+1)&&isEmpty(newposition,"black")&&isEmpty(newposition,"white")){
+        return true;
+    }
+    return false;
+}
+function checkDiagonalizable(oldposition,newposition){
+    if (newposition.charAt(4)==Number(oldposition.charAt(4))-1&&newposition.charAt(5)==Number(oldposition.charAt(5))-1&&!isEmpty(newposition,"black"))
+    return true;
+    if (newposition.charAt(4)==Number(oldposition.charAt(4))-1&&newposition.charAt(5)==Number(oldposition.charAt(5))+1&&!isEmpty(newposition,"black"))
+    return true;
+    return false;
+}
+function checkDiagonalizableBlack(oldposition,newposition){
+    if (newposition.charAt(4)==Number(oldposition.charAt(4))+1&&newposition.charAt(5)==Number(oldposition.charAt(5))+1&&!isEmpty(newposition,"white"))
+    return true;
+    if (newposition.charAt(4)==Number(oldposition.charAt(4))+1&&newposition.charAt(5)==Number(oldposition.charAt(5))-1&&!isEmpty(newposition,"white"))
+    return true;
+    return false;
+}
+async function checkPawnPromotion(piece,roomid,chosenPieceName,chosenPieceColor,chosenPiece,button,chosenPieceSrc){
+ 
+    if (piece.position.charAt(4)==0){
+        disableAllButtons();
+        console.log('promotion');
+        whiteturn=!whiteturn;
+        document.getElementById('modal-container-extra-big').style.display="block";
+        var rookPromotion=document.getElementById('rook-promotion');
+        var knightPromotion=document.getElementById('knight-promotion');
+        var queenPromotion=document.getElementById('queen-promotion');
+        var bishopPromotion=document.getElementById('bishop-promotion');
+        
+        rookPromotion.addEventListener('click',()=>{
+            console.log(button)
+            piece.name="rook";
+            piece.src="./pieces/rook.png";
+            var parent=document.getElementById(piece.position)
+            let child=parent.firstChild;
+            child.setAttribute('src',piece.src);
+            socket.emit("move",{id:roomid,cpn: 'rook',cpc: chosenPieceColor,cp: chosenPiece,b: button,cps: './pieces/rook.png'})
+            check("white");
+            disableAllButtons();
+            socket.emit("nextTurn",roomid); 
+            document.getElementById('modal-container-extra-big').style.display="none";
+            updateTurn();
+            whiteturn=!whiteturn;
+            socket.emit("updateTurn",{id:roomid,value:whiteturn});
+            return true;
+        })
+        knightPromotion.addEventListener('click',()=>{
+            console.log(button)
+            piece.name="knight";
+            piece.src="./pieces/knight.png";
+            var parent=document.getElementById(piece.position)
+            let child=parent.firstChild;
+            child.setAttribute('src',piece.src);
+            socket.emit("move",{id:roomid,cpn: 'knight',cpc: chosenPieceColor,cp: chosenPiece,b: button,cps: './pieces/knight.png'})
+            check("white");
+            disableAllButtons();
+            socket.emit("nextTurn",roomid); 
+            document.getElementById('modal-container-extra-big').style.display="none";
+            updateTurn();
+            whiteturn=!whiteturn;
+            socket.emit("updateTurn",{id:roomid,value:whiteturn});
+            return true;
+        })
+        bishopPromotion.addEventListener('click',()=>{
+            console.log(button)
+            piece.name="bishop";
+            piece.src="./pieces/bishop.png";
+            var parent=document.getElementById(piece.position)
+            let child=parent.firstChild;
+            child.setAttribute('src',piece.src);
+            socket.emit("move",{id:roomid,cpn: 'rook',cpc: chosenPieceColor,cp: chosenPiece,b: button,cps: './pieces/bishop.png'})
+            check("white");
+            disableAllButtons();
+            socket.emit("nextTurn",roomid); 
+            document.getElementById('modal-container-extra-big').style.display="none";
+            updateTurn();
+            whiteturn=!whiteturn;
+            socket.emit("updateTurn",{id:roomid,value:whiteturn});
+            return true;
+        })
+        queenPromotion.addEventListener('click',()=>{
+            console.log(button)
+            piece.name="queen";
+            piece.src="./pieces/queen.png";
+            var parent=document.getElementById(piece.position)
+            let child=parent.firstChild;
+            child.setAttribute('src',piece.src);
+            socket.emit("move",{id:roomid,cpn: 'queen',cpc: chosenPieceColor,cp: chosenPiece,b: button,cps: './pieces/queen.png'})
+            check("white");
+            disableAllButtons();
+            socket.emit("nextTurn",roomid); 
+            document.getElementById('modal-container-extra-big').style.display="none";
+            updateTurn();
+            whiteturn=!whiteturn;
+            socket.emit("updateTurn",{id:roomid,value:whiteturn});
+            return true;
+        })
+    }
+    else{
+        socket.emit("move",{id:roomid,cpn: chosenPieceName,cpc: chosenPieceColor,cp: chosenPiece,b: button,cps: chosenPieceSrc})
+        check("white");
+        disableAllButtons();
+        socket.emit("nextTurn",roomid);    
+        return true;
+    }
+}
 
+
+async function checkPawnPromotionBlack(piece,roomid,chosenPieceName,chosenPieceColor,chosenPiece,button,chosenPieceSrc){
+    if (piece.position.charAt(4)==7){
+        disableAllButtons();
+        console.log('promotion');
+        whiteturn=!whiteturn;
+        document.getElementById('modal-container-extra-big').style.display="block";
+        var rookPromotion=document.getElementById('rook-promotion');
+        var knightPromotion=document.getElementById('knight-promotion');
+        var queenPromotion=document.getElementById('queen-promotion');
+        var bishopPromotion=document.getElementById('bishop-promotion');
+        rookPromotion.setAttribute('src',"./pieces/rookb.png");
+        knightPromotion.setAttribute('src',"./pieces/knightb.png");
+        queenPromotion.setAttribute('src',"./pieces/queenb.png");
+        bishopPromotion.setAttribute('src',"./pieces/bishopb.png");
+
+        rookPromotion.addEventListener('click',()=>{
+            console.log(button)
+            piece.name="rook";
+            piece.src="./pieces/rookb.png";
+            var parent=document.getElementById(piece.position)
+            let child=parent.firstChild;
+            child.setAttribute('src',piece.src);
+            socket.emit("move",{id:roomid,cpn: 'rook',cpc: chosenPieceColor,cp: chosenPiece,b: button,cps: './pieces/rookb.png'})
+            check("black");
+            disableAllButtons();
+            socket.emit("nextTurn",roomid); 
+            document.getElementById('modal-container-extra-big').style.display="none";
+            updateTurn();
+            whiteturn=!whiteturn;
+            socket.emit("updateTurn",{id:roomid,value:whiteturn});
+            return true;
+        })
+        knightPromotion.addEventListener('click',()=>{
+            console.log(button)
+            piece.name="knight";
+            piece.src="./pieces/knightb.png";
+            var parent=document.getElementById(piece.position)
+            let child=parent.firstChild;
+            child.setAttribute('src',piece.src);
+            socket.emit("move",{id:roomid,cpn: 'knight',cpc: chosenPieceColor,cp: chosenPiece,b: button,cps: './pieces/knightb.png'})
+            check("black");
+            disableAllButtons();
+            socket.emit("nextTurn",roomid); 
+            document.getElementById('modal-container-extra-big').style.display="none";
+            updateTurn();
+            whiteturn=!whiteturn;
+            socket.emit("updateTurn",{id:roomid,value:whiteturn});
+            return true;
+        })
+        bishopPromotion.addEventListener('click',()=>{
+            console.log(button)
+            piece.name="bishop";
+            piece.src="./pieces/bishopb.png";
+            var parent=document.getElementById(piece.position)
+            let child=parent.firstChild;
+            child.setAttribute('src',piece.src);
+            socket.emit("move",{id:roomid,cpn: 'rook',cpc: chosenPieceColor,cp: chosenPiece,b: button,cps: './pieces/bishopb.png'})
+            check("black");
+            disableAllButtons();
+            socket.emit("nextTurn",roomid); 
+            document.getElementById('modal-container-extra-big').style.display="none";
+            updateTurn();
+            whiteturn=!whiteturn;
+            socket.emit("updateTurn",{id:roomid,value:whiteturn});
+            return true;
+        })
+        queenPromotion.addEventListener('click',()=>{
+            console.log(button)
+            piece.name="queen";
+            piece.src="./pieces/queenb.png";
+            var parent=document.getElementById(piece.position)
+            let child=parent.firstChild;
+            child.setAttribute('src',piece.src);
+            socket.emit("move",{id:roomid,cpn: 'queen',cpc: chosenPieceColor,cp: chosenPiece,b: button,cps: './pieces/queenb.png'})
+            check("black");
+            disableAllButtons();
+            socket.emit("nextTurn",roomid); 
+            document.getElementById('modal-container-extra-big').style.display="none";
+            updateTurn();
+            whiteturn=!whiteturn;
+            socket.emit("updateTurn",{id:roomid,value:whiteturn});
+            return true;
+        })
+    }
+    else{
+        socket.emit("move",{id:roomid,cpn: chosenPieceName,cpc: chosenPieceColor,cp: chosenPiece,b: button,cps: chosenPieceSrc})
+        check("black");
+        disableAllButtons();
+        socket.emit("nextTurn",roomid);    
+        return true;
+    }
+}
 socket.on("updatemove",(data) => {
     if (data.cpn.includes('pawn') && data.cpc.includes("white")) {
         for (let i = 0; i < pieceArray.length; i++) {
@@ -940,6 +1183,7 @@ socket.on("gameover",()=>{
 socket.on("checkwinnerResponse",()=>{
     if (checkGameOver()){
         gameOver=true;
+        document.getElementById('modal-container-extra-big').style.display="none";
         disableAllButtons();
         if (whiteturn){
         document.getElementById("turndisplay").innerHTML="White wins"
