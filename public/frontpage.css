@@ -43,5 +43,9 @@ label{
 input{
     font-size:5em
 }
-
+@media (min-width:1000px){
+    .container a{
+        font-size: 2em;
+    }
+}
 
