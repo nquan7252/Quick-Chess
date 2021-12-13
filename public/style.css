@@ -192,6 +192,10 @@ img{
     .turndisplay,.roomid,.hiddenmessage{
         font-size: 2vw;
     }
+    [id^=spot]:hover{
+        outline:5px solid black;
+        z-index: 100;
+    }
 }
 @media (max-width:1200px){
     .page{
