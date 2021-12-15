@@ -11,6 +11,7 @@
 body{
     background-image: url('chessbackground.jpg');
     font-family: 'Open Sans',sans-serif;
+    background-position: center;
 }
 .container{
 }
